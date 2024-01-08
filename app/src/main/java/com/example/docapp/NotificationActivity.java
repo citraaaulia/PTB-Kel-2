@@ -1,5 +1,10 @@
 package com.example.docapp;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,18 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import com.example.docapp.R;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -31,6 +36,8 @@ public class NotificationActivity extends AppCompatActivity {
     private List<NotificationItem> notificationList;
 
     private FirebaseFirestore firestore;
+
+    private static final String CHANNEL_ID = "my_channel";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,14 @@ public class NotificationActivity extends AppCompatActivity {
             }
         });
 
+        ImageButton deleteAllButton = findViewById(R.id.deleteAllButton);
+        deleteAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.deleteAllNotifications();
+            }
+        });
+
         firestore = FirebaseFirestore.getInstance();
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -60,34 +75,51 @@ public class NotificationActivity extends AppCompatActivity {
                 .collection("notifications")
                 .orderBy("date", Query.Direction.DESCENDING)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                NotificationItem notificationItem = document.toObject(NotificationItem.class);
-                                notificationItem.setId(document.getId()); // Set document ID
-                                notificationList.add(notificationItem);
-                            }
-                            adapter.notifyDataSetChanged();
-                        } else {
-                            Log.e("NotificationActivity", "Error getting documents: ", task.getException());
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            NotificationItem notificationItem = document.toObject(NotificationItem.class);
+                            notificationList.add(notificationItem);
+
+                            // Trigger local notification
+                            showNotification(notificationItem.getJudul(), notificationItem.getSubjudul());
                         }
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Log.e("NotificationActivity", "Error getting documents: ", task.getException());
                     }
                 });
     }
 
-    // ...
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "My Channel";
+            String description = "Channel for my notifications";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
 
-    // Buat kelas model untuk item notifikasi
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void showNotification(String title, String content) {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setSmallIcon(R.drawable.notification);
+
+        notificationManager.notify(1, builder.build());
+    }
+
     public static class NotificationItem {
 
         private String judul;
         private String subjudul;
 
-        private String id;
-
-        // Buat konstruktor kosong untuk Firebase
         public NotificationItem() {
         }
 
@@ -103,17 +135,8 @@ public class NotificationActivity extends AppCompatActivity {
         public String getSubjudul() {
             return subjudul;
         }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
     }
 
-    // Buat kelas adapter untuk RecyclerView
     public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
 
         private List<NotificationItem> notificationItems;
@@ -134,20 +157,6 @@ public class NotificationActivity extends AppCompatActivity {
             NotificationItem notificationItem = notificationItems.get(position);
             holder.textJudulNotifikasi.setText(notificationItem.getJudul());
             holder.subjudulNotifikasi.setText(notificationItem.getSubjudul());
-
-            // Handle delete button click
-            holder.deleteButton.setOnClickListener(v -> {
-                // Get the notification ID
-                String notificationId = notificationItem.getId();
-
-                // Delete the notification from Firestore
-                deleteNotificationFromFirestore(notificationId);
-
-                // Remove the item from the list
-                notificationItems.remove(position);
-                // Notify the adapter about the removal
-                notifyItemRemoved(position);
-            });
         }
 
         @Override
@@ -159,29 +168,31 @@ public class NotificationActivity extends AppCompatActivity {
 
             private TextView textJudulNotifikasi;
             private TextView subjudulNotifikasi;
-            private ImageButton deleteButton;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 textJudulNotifikasi = itemView.findViewById(R.id.textjudulnotifikasi);
                 subjudulNotifikasi = itemView.findViewById(R.id.subjudulnotifikasi);
-                deleteButton = itemView.findViewById(R.id.deleteButton);
             }
         }
 
-        private void deleteNotificationFromFirestore(String notificationId) {
+        private void deleteAllNotifications() {
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
             firestore.collection("users")
                     .document(userId)
                     .collection("notifications")
-                    .document(notificationId)  // Specify the document ID to delete
-                    .delete()
+                    .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            Log.d("NotificationActivity", "Notification deleted successfully");
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                document.getReference().delete();
+                            }
+                            notificationList.clear();
+                            adapter.notifyDataSetChanged();
+                            Log.d("NotificationActivity", "All notifications deleted successfully");
                         } else {
-                            Log.e("NotificationActivity", "Error deleting notification", task.getException());
+                            Log.e("NotificationActivity", "Error deleting notifications", task.getException());
                         }
                     });
         }
