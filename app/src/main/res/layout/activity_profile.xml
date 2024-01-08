@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+
+        <ImageView
+            android:id="@+id/imgDrlaki"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="450dp"
+            tools:srcCompat="@tools:sample/avatars"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.489"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:src="@android:drawable/ic_menu_camera"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgDrlaki" />
+
+        <TextView
+            android:id="@+id/usernameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="84dp"
+            android:text="Nama Pengguna"
+            android:textColor="#000000"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgDrlaki" />
+
+        <View
+            android:id="@+id/shape2"
+            android:layout_width="387dp"
+            android:layout_height="372dp"
+            android:layout_marginTop="140dp"
+            android:background="@drawable/shape2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgDrlaki" />
+
+
+        <TextView
+            android:id="@+id/gantisandi"
+            android:layout_width="209dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="100dp"
+            android:text="Ganti Kata sandi"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgDrlaki"
+            app:layout_constraintVertical_bias="0.421" />
+
+        <TextView
+            android:id="@+id/keluar"
+            android:layout_width="209dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="100dp"
+            android:text="Keluar"
+            android:textColor="#FF5C5C"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgDrlaki"
+            app:layout_constraintVertical_bias="0.576" />
+
+        <ImageView
+            android:id="@+id/bg1"
+            android:layout_width="53dp"
+            android:layout_height="51dp"
+            android:src="@drawable/bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.083"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgDrlaki"
+            app:layout_constraintVertical_bias="0.419" />
+
+        <ImageView
+            android:id="@+id/bg2"
+            android:layout_width="53dp"
+            android:layout_height="51dp"
+            android:layout_marginStart="28dp"
+            android:src="@drawable/bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgDrlaki"
+            app:layout_constraintVertical_bias="0.588" />
+
+        <ImageView
+            android:id="@+id/sandi1"
+            android:layout_width="37dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="36dp"
+            android:src="@drawable/sandi"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgDrlaki"
+            app:layout_constraintVertical_bias="0.42" />
+
+        <ImageView
+            android:id="@+id/logout"
+            android:layout_width="37dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="36dp"
+            android:src="@drawable/logout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgDrlaki"
+            app:layout_constraintVertical_bias="0.58" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        app:itemIconTint="@color/primaryColor"
+        app:itemTextColor="@color/black"
+        app:menu="@menu/bottom_nav_menu"/>
+
+</LinearLayout>

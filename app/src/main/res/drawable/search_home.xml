@@ -1,0 +1,18 @@
+<!-- res/drawable/search_view_background.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/searchColor" />
+            <corners android:radius="4dp" />
+        </shape>
+    </item>
+    <!-- Stroke -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+            <stroke android:color="#E8F3F1" android:width="2dp" />
+            <corners android:radius="4dp" />
+        </shape>
+    </item>
+</layer-list>

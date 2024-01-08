@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "627755700029",
+    "project_id": "docapp-45843",
+    "storage_bucket": "docapp-45843.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:627755700029:android:316c434a0d67c502f2ff54",
+        "android_client_info": {
+          "package_name": "com.example.docapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByO5D6KXGhIISfORRga254Yn3h46bs3qw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
