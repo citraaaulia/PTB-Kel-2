@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_media_previous"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="back button" />
+
+    <TextView
+        android:id="@+id/textPemesanan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:text="Tambahkan Jadwal"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.063"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textwaktu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="Waktu"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textPemesanan"
+        app:layout_constraintTop_toBottomOf="@+id/textPemesanan" />
+
+    <TextView
+        android:id="@+id/textjadwalanda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Tambahkan waktu jadwal anda"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textPemesanan"
+        app:layout_constraintTop_toBottomOf="@+id/textwaktu"/>
+
+    <TextView
+        android:id="@+id/hapusSemua"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Hapus Semua Jadwal"
+        android:layout_marginRight="20dp"
+        android:textSize="15sp"
+        android:textColor="@color/primaryColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/textwaktu"/>
+
+    <TextView
+        android:id="@+id/textwed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="176dp"
+        android:text="Wednesday"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.059"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <TextView
+        android:id="@+id/dateWednesday"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="176dp"
+        android:layout_marginRight="70dp"
+        android:text="Pilih tanggal untuk hari rabu..."
+        android:textSize="15sp"
+        android:textColor="@color/primaryColor"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.059"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+
+    <TextView
+        android:id="@+id/textSun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Monday"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.056"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <TextView
+        android:id="@+id/dateMonday"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="70dp"
+        android:text="Pilih tanggal untuk hari senin..."
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/primaryColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.056"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <TextView
+        android:id="@+id/texttfri"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="336dp"
+        android:text="Friday"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.054"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <TextView
+        android:id="@+id/dateFriday"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="70dp"
+        android:layout_marginTop="336dp"
+        android:text="Pilih tanggal untuk hari jumat..."
+        android:textColor="@color/primaryColor"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.054"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <TextView
+        android:id="@+id/texttue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:text="Tuesday"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.057"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <TextView
+        android:id="@+id/dateTuesday"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:layout_marginRight="70dp"
+        android:text="Pilih tanggal untuk hari selasa..."
+        android:textSize="15sp"
+        android:textColor="@color/primaryColor"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.057"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/wednesday1"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="210dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/wednesday2"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="210dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday1"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/wednesday3"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="210dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday2"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/wednesday4"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="210dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday3"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/wednesday5"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="210dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday4"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/wednesday6"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="210dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday5"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/wednesday7"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="210dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday6"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/wednesday8"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="210dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday7"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/wednesday9"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="210dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday8"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/friday1"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="370dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/friday2"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="370dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday1"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/friday3"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="370dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday2"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/friday4"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="370dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday3"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/friday5"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="370dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday4"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/friday6"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="370dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday5"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/friday7"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="370dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday6"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/friday8"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="370dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday7"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/friday9"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="370dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday8"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/thursday1"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="290dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/thursday2"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="290dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday1"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/thursday3"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="290dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday2"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/thursday4"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="290dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday3"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/thursday5"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="290dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday4"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/thursday6"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="290dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday5"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/thursday7"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="290dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday6"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/thursday8"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="290dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday7"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/thursday9"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="290dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/wednesday8"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/tuesday1"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/tuesday2"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/tuesday1"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/tuesday3"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/tuesday2"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/tuesday4"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/tuesday3"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/tuesday5"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/tuesday4"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/tuesday6"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/tuesday5"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/tuesday7"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/tuesday6"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/tuesday8"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/tuesday7"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/tuesday9"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/tuesday8"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <TextView
+        android:id="@+id/textthur"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="256dp"
+        android:text="Thursday"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.057"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <TextView
+        android:id="@+id/dateThursday"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="256dp"
+        android:layout_marginRight="70dp"
+        android:text="Pilih tanggal untuk hari kamis..."
+        android:textColor="@color/primaryColor"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.057"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/monday1"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/monday2"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/monday1"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/monday3"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/monday2"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/monday4"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/monday3"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/monday5"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/monday4"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/monday6"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/monday5"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/monday7"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/monday6"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/monday8"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/monday7"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <View
+        android:id="@+id/monday9"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/calender"
+        app:layout_constraintStart_toStartOf="@+id/monday8"
+        app:layout_constraintTop_toBottomOf="@+id/textjadwalanda" />
+
+    <Button
+        android:id="@+id/updateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="80dp"
+        android:backgroundTint="#199A8E"
+        android:text="Update Jadwal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/texttfri" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
