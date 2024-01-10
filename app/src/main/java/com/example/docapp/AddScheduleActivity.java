@@ -39,14 +39,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-//class tambah jadwal dokter
 public class AddScheduleActivity extends AppCompatActivity {
 
     private static final String TAG = "AddScheduleActivity";
 
-    //otentikasi pengguna
     private FirebaseAuth mAuth;
-    //melakukan operasi database
     private FirebaseFirestore db;
     private Button updateButton;
     private String mondayDate1, mondayDate2, mondayDate3, mondayDate4, mondayDate5, mondayDate6, mondayDate7, mondayDate8, mondayDate9;
@@ -67,16 +64,12 @@ public class AddScheduleActivity extends AppCompatActivity {
     private String userId;
 
     @Override
-    //deklarasi metode oncreate
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_schedule);
 
-        //getinstance variable mAuth
         mAuth = FirebaseAuth.getInstance();
-        //getinstance variable database
         db = FirebaseFirestore.getInstance();
-
 
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -86,14 +79,12 @@ public class AddScheduleActivity extends AppCompatActivity {
             }
         });
 
-        //menginisialisasi textview untuk pilih tanggal setiap hari
         mondayTextView = findViewById(R.id.dateMonday);
         tuesdayTextView = findViewById(R.id.dateTuesday);
         wednesdayTextView = findViewById(R.id.dateWednesday);
         thursdayTextView = findViewById(R.id.dateThursday);
         fridayTextView = findViewById(R.id.dateFriday);
 
-        //icon atur jam hari senin
         mondayView1 = findViewById(R.id.monday1);
         mondayView2 = findViewById(R.id.monday2);
         mondayView3 = findViewById(R.id.monday3);
@@ -104,7 +95,6 @@ public class AddScheduleActivity extends AppCompatActivity {
         mondayView8 = findViewById(R.id.monday8);
         mondayView9 = findViewById(R.id.monday9);
 
-        //icon atur jam hari selasa
         tuesdayView1 = findViewById(R.id.tuesday1);
         tuesdayView2 = findViewById(R.id.tuesday2);
         tuesdayView3 = findViewById(R.id.tuesday3);
@@ -115,7 +105,6 @@ public class AddScheduleActivity extends AppCompatActivity {
         tuesdayView8 = findViewById(R.id.tuesday8);
         tuesdayView9 = findViewById(R.id.tuesday9);
 
-        //icon atur jam hari rabu
         wednesdayView1 = findViewById(R.id.wednesday1);
         wednesdayView2 = findViewById(R.id.wednesday2);
         wednesdayView3 = findViewById(R.id.wednesday3);
@@ -126,7 +115,6 @@ public class AddScheduleActivity extends AppCompatActivity {
         wednesdayView8 = findViewById(R.id.wednesday8);
         wednesdayView9 = findViewById(R.id.wednesday9);
 
-        //icon atur jam hari kamis
         thursdayView1 = findViewById(R.id.thursday1);
         thursdayView2 = findViewById(R.id.thursday2);
         thursdayView3 = findViewById(R.id.thursday3);
@@ -137,7 +125,6 @@ public class AddScheduleActivity extends AppCompatActivity {
         thursdayView8 = findViewById(R.id.thursday8);
         thursdayView9 = findViewById(R.id.thursday9);
 
-        //icon atur jam hari jumat
         fridayView1 = findViewById(R.id.friday1);
         fridayView2 = findViewById(R.id.friday2);
         fridayView3 = findViewById(R.id.friday3);
@@ -148,19 +135,15 @@ public class AddScheduleActivity extends AppCompatActivity {
         fridayView8 = findViewById(R.id.friday8);
         fridayView9 = findViewById(R.id.friday9);
 
-
         setupClickListeners();
 
-        //bikin mondaytextview biar bisa diklik dan muncul date picker
         mondayTextView.setOnClickListener(new View.OnClickListener() {
             @Override
-            //metode bisa diakses di class lain, tapi tidak ada return apapun (public void)
             public void onClick(View v) {
                 showDatePickerDialog(mondayTextView, "monday");
             }
         });
 
-        //bikin tuesdayTextView biar bisa diklik dan muncul date picker
         tuesdayTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,17 +172,16 @@ public class AddScheduleActivity extends AppCompatActivity {
             }
         });
 
-        // load data jadwal (jika ada)
+        // Mendapatkan user yang sedang login
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
             userId = user.getUid();
             loadScheduleData(userId);
         }
 
-        //inisialisasi variable updatebutton untuk button updatebutton
         updateButton = findViewById(R.id.updateButton);
 
-        // jika update button diklik, metode updateschedule dijalankan
+        // Mengatur onClickListener untuk updateButton
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -207,9 +189,7 @@ public class AddScheduleActivity extends AppCompatActivity {
             }
         });
 
-        //inisialisasi button hapus schedule
         TextView hapusSemuaTextView = findViewById(R.id.hapusSemua);
-
         hapusSemuaTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -219,28 +199,19 @@ public class AddScheduleActivity extends AppCompatActivity {
         });
     }
 
-
-    //metode memanggil metode untuk menampilkan pilihan tanggal
     private void showDatePickerDialog(final TextView textView, final String hari) {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
-            //metode untuk memilih tanggal
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 // Handle the date selection
-                // get tanggal yang dipilih dalam format tertentu
+                // Update the TextView
                 String selectedDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-
-                // Update textview dengan tanggal yang dipilih
                 textView.setText(selectedDate);
 
-                //cek apakah nilai variable hari sama dengan monday
+                // Update the corresponding tanggal variable
                 if(Objects.equals(hari, "monday"))
                 {
-                    //jika iya, variable tanggalmonday menyimpan nilai pada selecteddate
                     tanggalMonday = selectedDate;
-
-                    //mencatat informasi ke logcat, untuk membantu debugging dan pelacakan
-                    //untuk liat nilai di tanggalmonday yang udah diupdate
                     Log.d(TAG, "Tanggal Senin :"+tanggalMonday);
                 }
                 else if(Objects.equals(hari, "tuesday"))
@@ -266,10 +237,10 @@ public class AddScheduleActivity extends AppCompatActivity {
             }
         };
 
-        // membuat objek datepickerdialog
+        // Create a DatePickerDialog
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 AddScheduleActivity.this,
-                dateSetListener, //parameter kedua objek
+                dateSetListener,
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
@@ -279,66 +250,40 @@ public class AddScheduleActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-
-    //load data schedule berdasarkan user ID
     private void loadScheduleData(String userId) {
-
-        //deklarasi dokumen berdasarkan ID ser di field dokter di firestore
         DocumentReference userDocRef = db.collection("doctors").document(userId);
 
-        //ambil data dari firestore berdasarkan referensinya (userId)
         userDocRef.get().addOnCompleteListener(task -> {
-            //jika berhasil
             if (task.isSuccessful()) {
-                //get objek DocumentSnapshot yang menyimpan dokumen dari hasil operasi
                 DocumentSnapshot document = task.getResult();
-
-                //cek apakah dokumennya ada
                 if (document.exists()) {
-                    //ambil nilai dari bookSchedule yang berisi daftar jadwal yang telah dibuat oleh dokter
                     List<Object> bookSchedule = (List<Object>) document.get("bookSchedule");
 
-                    //jika daftar jadwal ada
                     if (bookSchedule != null) {
-                        //jalankan metode processBookSchedule
                         processBookSchedule(bookSchedule);
                     }
                 } else {
-                    //jika dokumen gaada, tampilkan pesan
                     Log.d(TAG, "Document does not exist");
                 }
-                //jika operasi gagal, tampilkan pesan
             } else {
                 Log.d(TAG, "Failed with ", task.getException());
             }
         });
     }
 
-    //
     private void processBookSchedule(List<Object> bookSchedule) {
-        //buat objek SimpleDateFormat untuk memformat tanggal
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-        //iterasi melalui objek scheduleItem dalam bookschedule
         for (Object scheduleItem : bookSchedule) {
-            //cek jika schedule item itu turunan dari com.google.firebase.Timestamp
             if (scheduleItem instanceof com.google.firebase.Timestamp) {
-                //jika iya, ubah tipe data dari object ke timestamp
                 com.google.firebase.Timestamp timestamp = (com.google.firebase.Timestamp) scheduleItem;
-
-                //konversi timestamp ke objek date dengan metode toDate
                 Date date = timestamp.toDate();
 
-                //ubah format data date ke string
                 String formattedDateTime = dateFormat.format(date);
-
-                //get hari dalam seminggu
                 String dayOfWeek = getDayOfWeek(date);
 
-                //menangani dayOfWeek
                 switch (dayOfWeek) {
                     case "Monday":
-                        //panggil metode setMondayData dan meneruskan parameter formattedDateTime.
                         setMondayData(formattedDateTime);
                         break;
                     case "Tuesday":
@@ -362,50 +307,23 @@ public class AddScheduleActivity extends AppCompatActivity {
 
 
 
-    //definisi metode getdayofweek yang mengambil objek date
     private String getDayOfWeek(Date date) {
-
-        //buat objek untuk nama hari dalam format hari lengkap
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-
-        //memformat objek date yang diterima oleh parameter
         return sdf.format(date);
     }
 
-
-    //menentukan waktu atau jadwal yang dipilih di hari senin ke variable yang sesuai
-    //metode set data hari senin dan ganti format ke string
     private void setMondayData(String formattedDateTime) {
-
-        //simpan jam yang telah diinput ke variable time
         String time = getTimeFromDateTime(formattedDateTime);
-
-        //simpan tanggal yang telah diinput ke variable date
         String date = getDateFromDateTime(formattedDateTime);
-
-        //cek jika variable tanggalmonday kosong
         if (tanggalMonday == null || tanggalMonday.isEmpty()) {
-
-            //isi dengan tanggal baru
             tanggalMonday = date;
         }
 
-        //cek jika cariable mondayDate1 kosong
         if (mondayDate1 == null || mondayDate1.isEmpty()) {
-
-            //variable mondaydate1 menyimpan time yang diinput
             mondayDate1 = time;
-
-            //update warna elemen
             updateViewColor(mondayTextView, mondayView1, tanggalMonday);
-
-            //jika mondaydate2 kosong
         } else if (mondayDate2 == null || mondayDate2.isEmpty()) {
-
-            //simplan nilai variable time ke mondaydate2
             mondayDate2 = time;
-
-            //update warna
             updateViewColor(mondayTextView, mondayView2, tanggalMonday);
         } else if (mondayDate3 == null || mondayDate3.isEmpty()) {
             mondayDate3 = time;
@@ -511,7 +429,6 @@ public class AddScheduleActivity extends AppCompatActivity {
         }
     }
 
-
     private void setThursdayData(String formattedDateTime) {
         String time = getTimeFromDateTime(formattedDateTime);
         String date = getDateFromDateTime(formattedDateTime);
@@ -590,31 +507,22 @@ public class AddScheduleActivity extends AppCompatActivity {
         }
     }
 
-    //metode untuk mengambil bagian jam dari string yang isinya tanggal dan jam
     private String getTimeFromDateTime(String formattedDateTime) {
         // Assuming the format is "dd/MM/yyyy HH:mm:ss"
-        //memecah string formattedDateTime menjadi array string menggunakan spasi
         String[] dateTimeParts = formattedDateTime.split(" ");
-        //mengambil elemen kedua dari array, yaitu HH:mm:ss
         return dateTimeParts[1]; // Returns the time part
     }
 
-    //metode untuk mengambil bagian tanggal dari string yang isinya tanggal dan jam
     private String getDateFromDateTime(String formattedDateTime) {
         // Assuming the format is "dd/MM/yyyy HH:mm:ss"
-        //memecah string formattedDateTime menjadi array string menggunakan spasi
         String[] dateTimeParts = formattedDateTime.split(" ");
-        //mengambil elemen pertama dari array, yaitu dd/MM/yyyy
         return dateTimeParts[0]; // Returns the date part
     }
 
-    //metode updateview colour untuk update warna
     private void updateViewColor(TextView dayTextView, View dayView, String tanggal) {
         // Update the TextView with the date
-        //cek jika tanggal tidak sama dengan "none"
         if(!Objects.equals(tanggal, "none"))
         {
-            //maka variable dayTextView menampung nilai tanggal
             dayTextView.setText(tanggal);
         }
 
@@ -622,7 +530,6 @@ public class AddScheduleActivity extends AppCompatActivity {
         dayView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.primaryColor)));
     }
 
-    //deklarasi icon calendar agar bisa diklik
     private void setupClickListeners() {
         // Monday
         setOnClickListenerForDay(mondayView1, "mondayDate1");
@@ -680,12 +587,8 @@ public class AddScheduleActivity extends AppCompatActivity {
         setOnClickListenerForDay(fridayView9, "fridayDate9");
     }
 
-    //metode untuk menamilkan timepickerdialog ketika dayView diklik
     private void setOnClickListenerForDay(View dayView, String date) {
-        //ketika dayView di klik
         dayView.setOnClickListener(new View.OnClickListener() {
-            //pembuatan onClik sebagai class baru untuk menampilkan timepickerdialog
-            //dayView dan date akan diteruskan ke dalam dialog tersebut.
             @Override
             public void onClick(View v) {
                 showTimePickerDialog(dayView, date);
@@ -693,7 +596,6 @@ public class AddScheduleActivity extends AppCompatActivity {
         });
     }
 
-    //metode showTimePickerDialog ketika dayView diklik
     private void showTimePickerDialog(final View dayView, final String date) {
         // Create a TimePickerDialog
         TimePickerDialog timePickerDialog = new TimePickerDialog(
@@ -718,20 +620,14 @@ public class AddScheduleActivity extends AppCompatActivity {
         timePickerDialog.show();
     }
 
-    //simpan data inputan jadwal ke variable lalu update warna
-    //buat method untuk update variable waktu lalu update warnanya
     private void updateDateVariable(String date, String selectedTime) {
 
-        //mencetak informasi debug ke logcat untuk lihat nilai date dan selectedtime
         Log.d(TAG, "updateDateVariable: "+date+" "+selectedTime);
         // Assuming date is a valid index (e.g., "mondayDate1")
         switch (date) {
             // Monday
             case "mondayDate1":
-                //icon pertama di hari senin menampung data dari variable selectedtime
                 mondayDate1 = selectedTime;
-
-                //update warna
                 updateViewColor(mondayTextView, mondayView1, "none");
                 break;
             case "mondayDate2":
@@ -925,20 +821,12 @@ public class AddScheduleActivity extends AppCompatActivity {
 
     // Metode untuk menghapus bookSchedule
     private void deleteBookSchedule() {
-        //get instance dari FirebaseFirestore untuk akses database
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        //deklarasi untuk identifikasi document berdasarkan id dokter
         DocumentReference docRef = db.collection("doctors").document(userId);
 
         // Hapus field bookSchedule pada dokumen dengan ID userId
-        //FieldValue.delete(): hapus nilai sebuah field di firestore tanpa tau nilai sebelumnya
         docRef.update("bookSchedule", FieldValue.delete())
-
-                //tambah listener jika operasi berhasil
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
-
-                    //
                     @Override
                     public void onSuccess(Void aVoid) {
                         // Handle sukses hapus
@@ -958,22 +846,15 @@ public class AddScheduleActivity extends AppCompatActivity {
                 });
     }
 
-    //method update schedule
     private void updateSchedule() {
         // Membuat array baru untuk menyimpan timestamp
         List<Object> scheduleArray = new ArrayList<>();
 
         // Contoh penanganan pada tanggalMonday
-        // cek jika tanggalmonday tidak kosong
         if (tanggalMonday != null && !tanggalMonday.isEmpty()) {
             // Contoh penanganan untuk mondayDate1
-            //cek jika elemen tambah jadwal pertama di hari senin tidak kosong
             if (mondayDate1 != null && !mondayDate1.isEmpty()) {
-
-                //jalankan metode combineDataTime pada tanggalMonday dan mondayDate1
                 Date combinedDateTime = combineDateTime(tanggalMonday, mondayDate1);
-
-                //tambahkan pada schedule array
                 scheduleArray.add(combinedDateTime);
             }
 
@@ -1203,18 +1084,12 @@ public class AddScheduleActivity extends AppCompatActivity {
 
     }
 
-    //gabungkan tanggal dan waktu jadi objek Date
     private Date combineDateTime(String date, String time) {
         try {
             // Menggabungkan tanggal dan waktu menjadi objek Date
             String combinedDateTimeString = date + " " + time;
-
-            //buat pola tanggal
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            //konversi string combinedDateTimeString jadi objek date menggunakan objek SimpleDateFormat
             return dateFormat.parse(combinedDateTimeString);
-
-            //tangka dan cetak jejak kesalahan jika terjadi
         } catch (ParseException e) {
             e.printStackTrace();
             return null; // Atau lakukan penanganan kesalahan lainnya sesuai kebutuhan aplikasi Anda
@@ -1222,14 +1097,12 @@ public class AddScheduleActivity extends AppCompatActivity {
     }
 
 
-    //perbarui data jadwal pada firestore
     private void updateFirestore(List<Object> scheduleArray) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("doctors").document(userId);
 
         // Update field bookSchedule pada dokumen dengan ID userId
         docRef.update("bookSchedule", scheduleArray)
-                //tambahkan listerner jika operasi berhasil
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

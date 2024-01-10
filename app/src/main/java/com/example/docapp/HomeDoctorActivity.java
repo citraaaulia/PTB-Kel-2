@@ -27,6 +27,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -133,12 +134,12 @@ public class HomeDoctorActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         //atur listener
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-           //cek apakah item yang diklik memiliki id action_home
+            //cek apakah item yang diklik memiliki id action_home
             if (item.getItemId() == R.id.action_home) {
                 // Item Home yang aktif
                 return true;
 
-            //cek nika yang diklik memiliki id action_profile
+                //cek nika yang diklik memiliki id action_profile
             } else if (item.getItemId() == R.id.action_profile) {
                 //masuk ke laman profile dokter
                 startActivity(new Intent(HomeDoctorActivity.this, ProfileDoctorActivity.class));
@@ -347,7 +348,7 @@ public class HomeDoctorActivity extends AppCompatActivity {
                 //inisialisasi button konfirmasi
                 Button konfirmasiButton = holder.itemView.findViewById(R.id.konfirmasiBtn);
                 konfirmasiButton.setOnClickListener(v -> {
-                //memanggil metode updateBookingConfirmation dengan ID booking
+                    //memanggil metode updateBookingConfirmation dengan ID booking
                     updateBookingConfirmation(booking.getId());
                 });
 
@@ -483,12 +484,17 @@ public class HomeDoctorActivity extends AppCompatActivity {
                                             .get()
                                             .addOnSuccessListener(doctorDocument -> {
                                                 String doctorName = doctorDocument.getString("nama");
+                                                Date date = documentSnapshot.getDate("date");
+                                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                                                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm 'WIB'");
+                                                String formattedDate = dateFormat.format(date);
+                                                String formattedTime = timeFormat.format(date);
 
                                                 // Create notification document
                                                 Map<String, Object> notificationData = new HashMap<>();
                                                 notificationData.put("id", documentId); // or generate a new id
                                                 notificationData.put("judul", "Pengajuan Diterima");
-                                                notificationData.put("subjudul", "Pengajuan konsultasi diterima oleh " + doctorName);
+                                                notificationData.put("subjudul", "Pengajuan konsultasi diterima oleh " + doctorName + " pada tanggal " + formattedDate + " jam " + formattedTime);
                                                 notificationData.put("status", false);
                                                 notificationData.put("date", Timestamp.now());
 
@@ -523,18 +529,56 @@ public class HomeDoctorActivity extends AppCompatActivity {
 
 
         private void updateBookingStatus(String documentId, String status) {
-            // Update the document in Firestore to set the status
             Map<String, Object> updateData = new HashMap<>();
             updateData.put("status", status);
 
             db.collection("books").document(documentId)
                     .update(updateData)
                     .addOnSuccessListener(aVoid -> {
-                        // Show an alert or perform any action after updating the status
                         Toast.makeText(HomeDoctorActivity.this, "Booking status updated", Toast.LENGTH_SHORT).show();
-                        // Reload the bookings
                         if(Objects.equals(status, "cancel"))
                         {
+                            db.collection("books").document(documentId)
+                                    .get()
+                                    .addOnSuccessListener(documentSnapshot -> {
+                                        String doctorId = documentSnapshot.getString("doctorId");
+                                        String userId = documentSnapshot.getString("userId");
+
+                                        db.collection("doctors").document(doctorId)
+                                                .get()
+                                                .addOnSuccessListener(doctorDocument -> {
+                                                    String doctorName = doctorDocument.getString("nama");
+                                                    Date date = documentSnapshot.getDate("date");
+                                                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                                                    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm 'WIB'");
+                                                    String formattedDate = dateFormat.format(date);
+                                                    String formattedTime = timeFormat.format(date);
+
+                                                    Map<String, Object> notificationData = new HashMap<>();
+                                                    notificationData.put("id", documentId);
+                                                    notificationData.put("judul", "Pengajuan Ditolak");
+                                                    notificationData.put("subjudul", "Pengajuan konsultasi ditolak oleh " + doctorName + " pada tanggal " + formattedDate + " jam " + formattedTime);
+                                                    notificationData.put("status", false);
+                                                    notificationData.put("date", Timestamp.now());
+
+                                                    db.collection("users").document(userId)
+                                                            .collection("notifications")
+                                                            .document(documentId)
+                                                            .set(notificationData)
+                                                            .addOnSuccessListener(aVoid1 -> {
+                                                                Log.d("HomeDoctorActivity", "Notification added successfully");
+                                                            })
+                                                            .addOnFailureListener(e -> {
+                                                                Log.e("HomeDoctorActivity", "Error adding notification", e);
+                                                            });
+                                                })
+                                                .addOnFailureListener(e -> {
+                                                    Log.e("HomeDoctorActivity", "Error getting doctor's name", e);
+                                                });
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Log.e("HomeDoctorActivity", "Error getting booking data", e);
+                                    });
                             loadPendingBookings();
                         }
                         else if(Objects.equals(status, "finish"))
