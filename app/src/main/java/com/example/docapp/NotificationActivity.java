@@ -12,8 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import com.example.docapp.R;
-
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,6 +41,8 @@ public class NotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
+
+        createNotificationChannel(); // Added this line
 
         recyclerView = findViewById(R.id.rv_notifikasi);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -100,19 +100,23 @@ public class NotificationActivity extends AppCompatActivity {
             channel.setDescription(description);
 
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
         }
     }
 
     private void showNotification(String title, String content) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID)
-                .setContentTitle(title)
-                .setContentText(content)
-                .setSmallIcon(R.drawable.notification);
+        if (notificationManager != null) {
+            Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID)
+                    .setContentTitle(title)
+                    .setContentText(content)
+                    .setSmallIcon(R.drawable.notification);
 
-        notificationManager.notify(1, builder.build());
+            notificationManager.notify(1, builder.build());
+        }
     }
 
     public static class NotificationItem {

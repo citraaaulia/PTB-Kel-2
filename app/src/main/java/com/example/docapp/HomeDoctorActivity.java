@@ -52,32 +52,49 @@ public class HomeDoctorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homedoctor);
 
+        //inisialisasi recyclerview
         rvDikonfirmasi = findViewById(R.id.rv_dikonfirmasi);
         rvDikonfirmasi.setLayoutManager(new LinearLayoutManager(this));
 
+        //deklarasi koneksi ke database
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
+        //array list untuk simpan data booking
         bookingList = new ArrayList<>();
+
+        //deklarasi objek yg berfungsi untuk menghibingkan data dari bookinglist ke tampilan RecyclerView
         adapter = new BookingAdapter(bookingList, R.layout.item_dijadwalkan);
+
+        //menghubungkan rv dengan adapter
         rvDikonfirmasi.setAdapter(adapter);
 
+        //inisialisasi textview
         dijadwalkanTextView = findViewById(R.id.dijadwalkanBtn);
         selesaiTextView = findViewById(R.id.selesaiBtn);
         dibatalkanTextView = findViewById(R.id.ditolakBtn);
         pengajuanTextView = findViewById(R.id.pengajuanBtn);
 
+        //method untuk memuat list booking yang telah dikonfirmasi
         loadBookingsWithConfirmation("book", true, R.layout.item_antrian);
+
+        //textview bisa diklik
         dijadwalkanTextView.setOnClickListener(v -> {
+            //menangani potensi kealahan
             try {
+                //kembalikan elemen visual seperti keadaan awal
                 resetTextViews();
+                //atur warna text jadi primary colour
                 dijadwalkanTextView.setTextColor(getResources().getColor(R.color.primaryColor));
+                //atur typeface jadi bold
                 dijadwalkanTextView.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+                //memuat daftar pesanan yang telah dikonfirmasi
                 loadBookingsWithConfirmation("book", true, R.layout.item_antrian);
             } catch (Exception e) {
                 Log.e("HomeDoctorActivity", "Error on click: ", e);
             }
         });
+
 
         selesaiTextView.setOnClickListener(v -> {
             try {
@@ -112,12 +129,18 @@ public class HomeDoctorActivity extends AppCompatActivity {
             }
         });
 
+        //deklarasi bottom navigation dengan id
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        //atur listener
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+           //cek apakah item yang diklik memiliki id action_home
             if (item.getItemId() == R.id.action_home) {
                 // Item Home yang aktif
                 return true;
+
+            //cek nika yang diklik memiliki id action_profile
             } else if (item.getItemId() == R.id.action_profile) {
+                //masuk ke laman profile dokter
                 startActivity(new Intent(HomeDoctorActivity.this, ProfileDoctorActivity.class));
                 finish(); // Akhiri HomeActivity jika pindah ke ProfileActivity
                 return true;
@@ -125,13 +148,17 @@ public class HomeDoctorActivity extends AppCompatActivity {
             return false;
         });
 
+        //deklarasi button tambahkan jadwal
         Button AddScheduleButton = findViewById(R.id.button_tambahkanjadwal);
+        //button tambahkan jadwal bisa diklik
         AddScheduleButton.setOnClickListener(v -> {
+            //buka laman addschedule
             Intent intent = new Intent(HomeDoctorActivity.this, AddScheduleActivity.class);
             startActivity(intent);
         });
     }
 
+    //mengembalikan tampilan dari beberapa elemen ke keadaan awal
     private void resetTextViews() {
         dijadwalkanTextView.setTextColor(getResources().getColor(R.color.black));
         dijadwalkanTextView.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
@@ -143,19 +170,35 @@ public class HomeDoctorActivity extends AppCompatActivity {
         pengajuanTextView.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
     }
 
+
+
+    //metode untuk ambil data booking yang telah dikonformasi
+    //deklarasi method
     private void loadBookingsWithConfirmation(String status, boolean confirmation, int layoutId) {
+        //ambil dari koleksi books
         db.collection("books")
+                //filter dokumen berdasarkan id dokter yang saat ini login
                 .whereEqualTo("doctorId", mAuth.getCurrentUser().getUid())
+                //filter status
                 .whereEqualTo("status", status)
+                //filter konfirmasi
                 .whereEqualTo("confirmation", confirmation)
+                //eksekusi query
                 .get()
+                //tambahkan listener untuk tangani hasil query
                 .addOnCompleteListener(task -> {
+                    //jika operasi berhasil
                     if (task.isSuccessful()) {
+                        //hapus data sebelumnya dari booking list
                         bookingList.clear();
+                        //ambil setiap dokumen dari hasil query
                         for (QueryDocumentSnapshot document : task.getResult()) {
+                            //parse data booking dan tambahkan ke booking list
                             parseBookingData(document);
                         }
+                        //buat adapter baru dengan data dari bookinglist dan layoutid
                         adapter = new BookingAdapter(bookingList, layoutId);
+                        //atur adapter ke rvdikonfirmasi
                         rvDikonfirmasi.setAdapter(adapter);
                     } else {
                         Log.d("HomeDoctorActivity", "Error getting documents: ", task.getException());
@@ -202,7 +245,9 @@ public class HomeDoctorActivity extends AppCompatActivity {
                 });
     }
 
+    //ambil data dari dokumen booking dan tambahan dari dokumen lain
     private void parseBookingData(QueryDocumentSnapshot document) {
+        //dapatkan nilai atribut dari dokumen booking
         String userId = document.getString("userId");
         String doctorId = document.getString("doctorId");
         String id = document.getString("id");
@@ -211,7 +256,9 @@ public class HomeDoctorActivity extends AppCompatActivity {
 
         // Get the user document to retrieve the avatarUrl
         db.collection("users").document(userId)
+                //eksekusi query dan tampilkan hasilnya
                 .get()
+                //tambahkan listerner
                 .addOnSuccessListener(userDocument -> {
                     // Assuming "avatar" is the field name in the "users" collection
                     String avatarUrl = userDocument.getString("avatar");
@@ -259,8 +306,11 @@ public class HomeDoctorActivity extends AppCompatActivity {
     }
 
 
+    //adapter kelola data booking dan menghubungkan ke recyclerview
     private class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingViewHolder> {
+        //berisi data booking
         private List<Booking> bookingList;
+        //menentukan tata letak item di recylerview
         private int layoutId;
 
         public BookingAdapter(List<Booking> bookingList, int layoutId) {
@@ -270,27 +320,38 @@ public class HomeDoctorActivity extends AppCompatActivity {
 
         @NonNull
         @Override
+        //mengembalikan objek BookingViewHolder
         public BookingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            //buat objek LayoutInflater
             View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
+            //membuat instance BookingViewHolder
             return new BookingViewHolder(view);
         }
 
 
         @Override
+        //menghubungkan recyclerview dengan dataset bookinglist
+        //position item dalam dataset akan dihubungkan dengan ViewHolder
         public void onBindViewHolder(@NonNull BookingViewHolder holder, int position) {
+            //mengambil data booking berdasarkan posisi
             Booking booking = bookingList.get(position);
 
+            //cek jika layoutid-nya item_pengajuan
             if (layoutId == R.layout.item_pengajuan) {
+                //inisialisasi button tolak
                 Button tolakButton = holder.itemView.findViewById(R.id.tolakBtn);
                 tolakButton.setOnClickListener(v -> {
+                    //update status booking jadi cancel
                     updateBookingStatus(booking.getId(), "cancel");
                 });
-
+                //inisialisasi button konfirmasi
                 Button konfirmasiButton = holder.itemView.findViewById(R.id.konfirmasiBtn);
                 konfirmasiButton.setOnClickListener(v -> {
+                //memanggil metode updateBookingConfirmation dengan ID booking
                     updateBookingConfirmation(booking.getId());
                 });
 
+                //inisialisasi avatar dan textview
                 ImageView avatarImageView = holder.itemView.findViewById(R.id.avatar);
                 TextView namaPasienTextView = holder.itemView.findViewById(R.id.namaPasien);
                 TextView tanggalTextView = holder.itemView.findViewById(R.id.tanggal);
@@ -300,15 +361,21 @@ public class HomeDoctorActivity extends AppCompatActivity {
                 Glide.with(holder.itemView.getContext()).load(booking.getAvatarUrl()).into(avatarImageView);
 
                 // Load user data from Firestore and update the corresponding TextViews
+                //akses collection user dan get document berdasarkan ID
                 db.collection("users").document(booking.getUserId())
                         .get()
                         .addOnSuccessListener(documentSnapshot -> {
+                            //inisialisasi variable userName berisi nilai dari field name di firestore
                             String userName = documentSnapshot.getString("name");
+                            //textview menjadi nilai dari username
                             namaPasienTextView.setText(userName);
 
                             // Format date
+                            //memformat tanggal
                             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                            //memformat waktu
                             SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm 'WIB'", Locale.getDefault());
+                            //
                             tanggalTextView.setText(dateFormat.format(booking.getDate().toDate()));
                             waktuTextView.setText(timeFormat.format(booking.getDate().toDate()));
                         })
