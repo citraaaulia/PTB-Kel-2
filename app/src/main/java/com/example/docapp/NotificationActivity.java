@@ -113,7 +113,7 @@ public class NotificationActivity extends AppCompatActivity {
             Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID)
                     .setContentTitle(title)
                     .setContentText(content)
-                    .setSmallIcon(R.drawable.notification);
+                    .setSmallIcon(R.drawable.medics);
 
             notificationManager.notify(1, builder.build());
         }
