@@ -535,6 +535,50 @@ public class HomeDoctorActivity extends AppCompatActivity {
                         // Reload the bookings
                         if(Objects.equals(status, "cancel"))
                         {
+                            // Get additional data for notification
+                            db.collection("books").document(documentId)
+                                    .get()
+                                    .addOnSuccessListener(documentSnapshot -> {
+                                        String doctorId = documentSnapshot.getString("doctorId");
+                                        String userId = documentSnapshot.getString("userId");
+
+                                        // Get doctor's name
+                                        db.collection("doctors").document(doctorId)
+                                                .get()
+                                                .addOnSuccessListener(doctorDocument -> {
+                                                    String doctorName = doctorDocument.getString("nama");
+
+                                                    // Create notification document
+                                                    Map<String, Object> notificationData = new HashMap<>();
+                                                    notificationData.put("id", documentId); // or generate a new id
+                                                    notificationData.put("judul", "Pengajuan Ditolak");
+                                                    notificationData.put("subjudul", "Pengajuan konsultasi ditolak oleh " + doctorName);
+                                                    notificationData.put("status", false);
+                                                    notificationData.put("date", Timestamp.now());
+
+                                                    // Add notification to user's notifications subcollection
+                                                    db.collection("users").document(userId)
+                                                            .collection("notifications")
+                                                            .document(documentId) // or use another id
+                                                            .set(notificationData)
+                                                            .addOnSuccessListener(aVoid1 -> {
+                                                                // Successfully added notification
+                                                                Log.d("HomeDoctorActivity", "Notification added successfully");
+                                                            })
+                                                            .addOnFailureListener(e -> {
+                                                                // Failed to add notification
+                                                                Log.e("HomeDoctorActivity", "Error adding notification", e);
+                                                            });
+                                                })
+                                                .addOnFailureListener(e -> {
+                                                    // Failed to get doctor's name
+                                                    Log.e("HomeDoctorActivity", "Error getting doctor's name", e);
+                                                });
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        // Failed to get booking data
+                                        Log.e("HomeDoctorActivity", "Error getting booking data", e);
+                                    });
                             loadPendingBookings();
                         }
                         else if(Objects.equals(status, "finish"))
