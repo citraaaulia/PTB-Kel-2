@@ -493,7 +493,7 @@ public class HomeDoctorActivity extends AppCompatActivity {
                                                 Map<String, Object> notificationData = new HashMap<>();
                                                 notificationData.put("id", documentId); // or generate a new id
                                                 notificationData.put("judul", "Pengajuan Diterima");
-                                                notificationData.put("subjudul", "Pengajuan konsultasi diterima oleh " + doctorName + "pada tanggal " + formattedDate + "jam " + formattedTime);
+                                                notificationData.put("subjudul", "Pengajuan konsultasi diterima oleh " + doctorName + " pada tanggal " + formattedDate + " jam " + formattedTime);
                                                 notificationData.put("status", false);
                                                 notificationData.put("date", Timestamp.now());
                                                 
@@ -562,7 +562,7 @@ public class HomeDoctorActivity extends AppCompatActivity {
                                                     Map<String, Object> notificationData = new HashMap<>();
                                                     notificationData.put("id", documentId); // or generate a new id
                                                     notificationData.put("judul", "Pengajuan Ditolak");
-                                                    notificationData.put("subjudul", "Pengajuan konsultasi ditolak oleh " + doctorName + "pada tanggal " + formattedDate + "jam " + formattedTime);
+                                                    notificationData.put("subjudul", "Pengajuan konsultasi ditolak oleh " + doctorName + " pada tanggal " + formattedDate + " jam " + formattedTime);
                                                     notificationData.put("status", false);
                                                     notificationData.put("date", Timestamp.now());
 
