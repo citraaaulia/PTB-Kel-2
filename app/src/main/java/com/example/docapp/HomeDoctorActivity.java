@@ -483,15 +483,20 @@ public class HomeDoctorActivity extends AppCompatActivity {
                                             .get()
                                             .addOnSuccessListener(doctorDocument -> {
                                                 String doctorName = doctorDocument.getString("nama");
+                                                Date date = documentSnapshot.getDate("date");
+                                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                                                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm 'WIB'");
+                                                String formattedDate = dateFormat.format(date);
+                                                String formattedTime = timeFormat.format(date);
 
                                                 // Create notification document
                                                 Map<String, Object> notificationData = new HashMap<>();
                                                 notificationData.put("id", documentId); // or generate a new id
                                                 notificationData.put("judul", "Pengajuan Diterima");
-                                                notificationData.put("subjudul", "Pengajuan konsultasi diterima oleh " + doctorName);
+                                                notificationData.put("subjudul", "Pengajuan konsultasi diterima oleh " + doctorName + "pada tanggal " + formattedDate + "jam " + formattedTime);
                                                 notificationData.put("status", false);
                                                 notificationData.put("date", Timestamp.now());
-
+                                                
                                                 // Add notification to user's notifications subcollection
                                                 db.collection("users").document(userId)
                                                         .collection("notifications")
@@ -547,12 +552,17 @@ public class HomeDoctorActivity extends AppCompatActivity {
                                                 .get()
                                                 .addOnSuccessListener(doctorDocument -> {
                                                     String doctorName = doctorDocument.getString("nama");
+                                                    Date date = documentSnapshot.getDate("date");
+                                                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                                                    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm 'WIB'");
+                                                    String formattedDate = dateFormat.format(date);
+                                                    String formattedTime = timeFormat.format(date);
 
                                                     // Create notification document
                                                     Map<String, Object> notificationData = new HashMap<>();
                                                     notificationData.put("id", documentId); // or generate a new id
                                                     notificationData.put("judul", "Pengajuan Ditolak");
-                                                    notificationData.put("subjudul", "Pengajuan konsultasi ditolak oleh " + doctorName);
+                                                    notificationData.put("subjudul", "Pengajuan konsultasi ditolak oleh " + doctorName + "pada tanggal " + formattedDate + "jam " + formattedTime);
                                                     notificationData.put("status", false);
                                                     notificationData.put("date", Timestamp.now());
 
